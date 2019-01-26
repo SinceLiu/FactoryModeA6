@@ -72,6 +72,15 @@ public class LineTest extends BaseTestActivity {
 
     private SharedPreferences mSp;
 
+    boolean mDrawRectVertexLeft = false;
+    boolean mDrawRectVertexTop = false;
+    boolean mDrawRectVertexRight = false;
+    boolean mDrawRectVertexBottom = false;
+    boolean mDrawRectMidpointLeft = false;
+    boolean mDrawRectMidpointTop = false;
+    boolean mDrawRectMidpointRight = false;
+    boolean mDrawRectMidpointBottom = false;
+
     boolean mIsDrawRect = false;
 
     boolean mDrawRectSuccess = false;
@@ -184,13 +193,48 @@ public class LineTest extends BaseTestActivity {
             flags = 1;
         }
 
-        if (mInputLeft.size() < 5 || mInputTop.size() < 5 || mInputRight.size() < 5
-                || mInputBottom.size() < 5) {
+        if (mInputLeft.size() < 5 || mInputTop.size() < 5 || mInputRight.size() < 5 || mInputBottom.size() < 5
+                || !mDrawRectVertexLeft || !mDrawRectVertexRight || !mDrawRectVertexTop || !mDrawRectVertexBottom
+                || !mDrawRectMidpointLeft || !mDrawRectMidpointRight || !mDrawRectMidpointTop || !mDrawRectMidpointBottom) {
             mIsDrawRect = false;
             mDrawRectSuccess = false;
             mTemPoints.clear();
         }
         mDiversity = 0.0;
+        mDrawRectVertexLeft = mDrawRectVertexTop = mDrawRectVertexRight = mDrawRectVertexBottom
+                = mDrawRectMidpointLeft = mDrawRectMidpointTop = mDrawRectMidpointRight = mDrawRectMidpointBottom = false;
+    }
+
+    //是否经过四个顶点和四条边的中点
+    public void checkRect(Point point) {
+        if (point.x <= mPadding + 10 && point.y <= mPadding + 10) {
+            mDrawRectVertexLeft = true;
+        }
+        if (point.x <= mPadding + 10 && point.y >= mRectHeight - mPadding - 10) {
+            mDrawRectVertexBottom = true;
+        }
+        if (point.x >= mRectWidth - mPadding - 10 && point.y >= mRectHeight - mPadding - 10) {
+            mDrawRectVertexRight = true;
+        }
+        if (point.x >= mRectWidth - mPadding - 10 && point.y <= mPadding + 10) {
+            mDrawRectVertexTop = true;
+        }
+        if (point.x <= mPadding + 10 &&
+                point.y >= mRectHeight / 2 - mPadding - 10 && point.y <= mRectHeight / 2 + mPadding + 10) {
+            mDrawRectMidpointLeft = true;
+        }
+        if (point.x >= mRectWidth / 2 - mPadding - 10 && point.x <= mRectWidth / 2 + mPadding + 10 &&
+                point.y >= mRectHeight - mPadding - 10) {
+            mDrawRectMidpointBottom = true;
+        }
+        if (point.x >= mRectWidth - mPadding - 10 &&
+                point.y >= mRectHeight / 2 - mPadding - 10 && point.y <= mRectHeight / 2 + mPadding + 10) {
+            mDrawRectMidpointRight = true;
+        }
+        if (point.x >= mRectWidth / 2 - mPadding - 10 && point.x <= mRectWidth / 2 + mPadding + 10 &&
+                point.y >= mRectHeight - mPadding - 10) {
+            mDrawRectMidpointTop = true;
+        }
     }
 
     public void releaseList() {
@@ -354,6 +398,7 @@ public class LineTest extends BaseTestActivity {
             list = lists.get(j);
             for (int i = 0; i < list.size(); i++) {
                 aPoint = list.get(i);
+                checkRect(aPoint);
                 if (aPoint.x < mRectWidth / 2) {
                     if (aPoint.y < mRectHeight / 2) {
                         if (aPoint.x > aPoint.y) {
@@ -700,6 +745,10 @@ public class LineTest extends BaseTestActivity {
                                 if (!mDrawRectSuccess) {
                                     mInput.clear();
                                     mTemPoints.clear();
+                                    mInputLeft.clear();
+                                    mInputTop.clear();
+                                    mInputRight.clear();
+                                    mInputBottom.clear();
                                 } else if (mDrawRectSuccess && !mDrawDiagonalSuccess) {
                                     clearDrawDiagonal();
                                 } else if (mDrawRectSuccess && mDrawDiagonalSuccess) {
@@ -718,6 +767,10 @@ public class LineTest extends BaseTestActivity {
                                 if (!mDrawRectSuccess) {
                                     mInput.clear();
                                     mTemPoints.clear();
+                                    mInputLeft.clear();
+                                    mInputTop.clear();
+                                    mInputRight.clear();
+                                    mInputBottom.clear();
                                 } else if (mDrawRectSuccess && !mDrawDiagonalSuccess) {
                                     clearDrawDiagonal();
                                 } else if (mDrawRectSuccess && mDrawDiagonalSuccess) {

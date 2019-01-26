@@ -52,7 +52,6 @@ public class GPS1 extends BaseTestActivity implements OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         ActionBar.LayoutParams lp =new  ActionBar.LayoutParams(
                 android.view.ViewGroup.LayoutParams.MATCH_PARENT,

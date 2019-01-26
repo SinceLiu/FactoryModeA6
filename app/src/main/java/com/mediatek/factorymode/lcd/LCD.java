@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.mediatek.factorymode.AppDefine;
@@ -31,6 +32,7 @@ public class LCD extends BaseTestActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         mSp = getSharedPreferences("FactoryMode", Context.MODE_PRIVATE);
         setContentView(R.layout.lcd);
         timer = new Timer();

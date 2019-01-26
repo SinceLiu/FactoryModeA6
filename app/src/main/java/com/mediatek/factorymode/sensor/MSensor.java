@@ -80,8 +80,6 @@ public class MSensor extends BaseTestActivity implements SensorListener {
         mBtOk.setOnClickListener(cl);
         mBtFailed = (Button) findViewById(R.id.msensor_bt_failed);
         mBtFailed.setOnClickListener(cl);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @Override

@@ -49,73 +49,75 @@ public class AudioForBatteryTest extends BaseTestActivity implements OnClickList
 
     private int oldMode;
     private int oldVolume;
-    
+
     private int level = -1;
-    
+
     private boolean testEnd = false;
     private int startLevel = -1;
     private int endLevel = -1;
     private int maxPassLevel = 8;
-    
-    private long testTimeLong = 1*60*60*1000;
+
+    private long testTimeLong = 1 * 60 * 60 * 1000;
     private long start = -1;
     private Timer timer = new Timer();
     private TimerTask task = new TimerTask() {
-		
-		@Override
-		public void run() {
-			mHandler.sendEmptyMessage(UPDATE_TIME);
-		}
-	};
-	private final int UPDATE_TIME = 0x0;
-	private Handler mHandler = new Handler(){
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case UPDATE_TIME:
-				long current = System.currentTimeMillis();
-				if (start==-1) {
-					start = current;
-				}
-				long remainingTime = testTimeLong-(current-start);
-				if (remainingTime<0) {
-					remainingTime=0;
-				}
-				TextView tv_0 = (TextView)findViewById(R.id.tv_0);
-				tv_0.setText(""
-						+ ((remainingTime/(60*60*1000))%24) + ":"
-						+ ((remainingTime/(60*1000))%60) + ":"
-						+ ((remainingTime/1000)%60));
-				if (remainingTime==0) {
-					if (timer!=null) {
-						timer.cancel();
-						timer=null;
-					}
-					stopMediaPlayer();
-					
-					TextView tv = (TextView)findViewById(R.id.tv_2);
-	            	String tag = "结束:";
-	            	
-	            	testEnd = true;
-	            	boolean result = startLevel - endLevel <= maxPassLevel;
-	            	Utils.SetPreferences(AudioForBatteryTest.this, 
-	            			mSp, R.string.battery_used_name,
-	            			result ? AppDefine.FT_SUCCESS : AppDefine.FT_FAILED);
-	            	String tail = result ? "成功":"失败";
-	            	tv.setText(tag+level+" "+tail);
-	            	tv.setTextColor(result?Color.BLUE:Color.RED);
-	            	
-	                mBtOk.setText("结束");
-	                mBtFailed.setEnabled(false);
-				}
-				break;
 
-			default:
-				break;
-			}
-		};
-	};
-    
+        @Override
+        public void run() {
+            mHandler.sendEmptyMessage(UPDATE_TIME);
+        }
+    };
+    private final int UPDATE_TIME = 0x0;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case UPDATE_TIME:
+                    long current = System.currentTimeMillis();
+                    if (start == -1) {
+                        start = current;
+                    }
+                    long remainingTime = testTimeLong - (current - start);
+                    if (remainingTime < 0) {
+                        remainingTime = 0;
+                    }
+                    TextView tv_0 = (TextView) findViewById(R.id.tv_0);
+                    tv_0.setText(""
+                            + ((remainingTime / (60 * 60 * 1000)) % 24) + ":"
+                            + ((remainingTime / (60 * 1000)) % 60) + ":"
+                            + ((remainingTime / 1000) % 60));
+                    if (remainingTime == 0) {
+                        if (timer != null) {
+                            timer.cancel();
+                            timer = null;
+                        }
+                        stopMediaPlayer();
+
+                        TextView tv = (TextView) findViewById(R.id.tv_2);
+                        String tag = "结束:";
+
+                        testEnd = true;
+                        boolean result = startLevel - endLevel <= maxPassLevel;
+                        Utils.SetPreferences(AudioForBatteryTest.this,
+                                mSp, R.string.battery_used_name,
+                                result ? AppDefine.FT_SUCCESS : AppDefine.FT_FAILED);
+                        String tail = result ? "成功" : "失败";
+                        tv.setText(tag + level + " " + tail);
+                        tv.setTextColor(result ? Color.BLUE : Color.RED);
+
+                        mBtOk.setText("结束");
+                        mBtFailed.setEnabled(false);
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        ;
+    };
+
     private IntentFilter mIntentFilter;
     private BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
 
@@ -123,46 +125,46 @@ public class AudioForBatteryTest extends BaseTestActivity implements OnClickList
         public void onReceive(Context arg0, Intent arg1) {
             String action = arg1.getAction();
             if (action.equals(Intent.ACTION_BATTERY_CHANGED)) {
-            	TextView tv;
-            	String tag = "";
-            	if (level == -1) {
-            		tv = (TextView)findViewById(R.id.tv_1);
-            		tag = "开始:";
-					startLevel = arg1.getIntExtra("level", 0);
-				} else {
-            		tv = (TextView)findViewById(R.id.tv_3);
-            		tag = "现在:";
-				}
-            	level = arg1.getIntExtra("level", 0);
-				endLevel = level;
-            	tv.setText(tag+level);
+                TextView tv;
+                String tag = "";
+                if (level == -1) {
+                    tv = (TextView) findViewById(R.id.tv_1);
+                    tag = "开始:";
+                    startLevel = arg1.getIntExtra("level", 0);
+                } else {
+                    tv = (TextView) findViewById(R.id.tv_3);
+                    tag = "现在:";
+                }
+                level = arg1.getIntExtra("level", 0);
+                endLevel = level;
+                tv.setText(tag + level);
             }
 
         }
     };
 
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		
-	ActionBar.LayoutParams lp =new  ActionBar.LayoutParams(
-        android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-        android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-        Gravity.CENTER);
 
-	 View mView =  LayoutInflater.from(this).inflate(R.layout.title, new LinearLayout(this), false);
-	 TextView mTextView = (TextView) mView.findViewById(R.id.action_bar_title);
-	getActionBar().setCustomView(mView, lp); 
-	
-	mTextView.setText(getTitle());
-	 
-	getActionBar().setDisplayShowHomeEnabled(false);
-	getActionBar().setDisplayShowTitleEnabled(false);
-	getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-	getActionBar().setDisplayShowCustomEnabled(true);
-	getActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
-		
+        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER);
+
+        View mView = LayoutInflater.from(this).inflate(R.layout.title, new LinearLayout(this), false);
+        TextView mTextView = (TextView) mView.findViewById(R.id.action_bar_title);
+        getActionBar().setCustomView(mView, lp);
+
+        mTextView.setText(getTitle());
+
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setDisplayShowTitleEnabled(false);
+        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getActionBar().setDisplayShowCustomEnabled(true);
+        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
         setContentView(R.layout.audio_and_battery_test);
         mBtOk = (Button) findViewById(R.id.audio_bt_ok);
         mBtOk.setOnClickListener(this);
@@ -175,15 +177,15 @@ public class AudioForBatteryTest extends BaseTestActivity implements OnClickList
         audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
                 audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
-                AudioManager.FLAG_PLAY_SOUND);
+                AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         audioManager.setMode(AudioManager.MODE_NORMAL);
         initMediaPlayer();
-        
+
 
         mIntentFilter = new IntentFilter();
         mIntentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
-        
+
         timer.schedule(task, 0, 500);
         registerReceiver(mIntentReceiver, mIntentFilter);
     }
@@ -199,32 +201,35 @@ public class AudioForBatteryTest extends BaseTestActivity implements OnClickList
         audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
                 audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
-                AudioManager.FLAG_PLAY_SOUND);
+                AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
     }
-    
+
     @Override
     protected void onPause() {
-    	super.onPause();
+        super.onPause();
 
         audioManager.setRingerMode(oldMode);
-    	audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 
-    			oldVolume,
-                AudioManager.FLAG_PLAY_SOUND);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+                oldVolume,
+                AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
     }
 
     @Override
     public void finish() {
 
-		if (timer!=null) {
-			timer.cancel();
-			timer=null;
-		}
-    	stopMediaPlayer();
-        unregisterReceiver(mIntentReceiver);
-        
-    	super.finish();
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+        stopMediaPlayer();
+        if (mIntentReceiver != null) {
+            unregisterReceiver(mIntentReceiver);
+            mIntentReceiver = null;
+        }
+
+        super.finish();
     }
-    
+
     protected void onDestroy() {
         super.onDestroy();
     }
@@ -234,22 +239,22 @@ public class AudioForBatteryTest extends BaseTestActivity implements OnClickList
         mPlayer.setLooping(true);
         mPlayer.start();
     }
-    
+
     private void stopMediaPlayer() {
-        if (mPlayer!=null) {
-        	if (mPlayer.isPlaying()) {
+        if (mPlayer != null) {
+            if (mPlayer.isPlaying()) {
                 mPlayer.stop();
-			}
-        	mPlayer.release();
-        	mPlayer = null;
-		}
+            }
+            mPlayer.release();
+            mPlayer = null;
+        }
     }
 
     public void onClick(View v) {
-    	if (!testEnd) {
+        if (!testEnd) {
             Utils.SetPreferences(this, mSp, R.string.battery_used_name,
                     (v.getId() == mBtOk.getId()) ? AppDefine.FT_SUCCESS : AppDefine.FT_FAILED);
-		}
+        }
         finish();
     }
 
@@ -257,18 +262,18 @@ public class AudioForBatteryTest extends BaseTestActivity implements OnClickList
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
-                audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE , AudioManager.FLAG_PLAY_SOUND);
+                audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
                 break;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
-                audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER , AudioManager.FLAG_PLAY_SOUND);
+                audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
                 break;
             default:
-                break;  
+                break;
         }
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
             finish();
         }
         return true;
-		//return super.onKeyDown(keyCode, event);
+        //return super.onKeyDown(keyCode, event);
     }
 }

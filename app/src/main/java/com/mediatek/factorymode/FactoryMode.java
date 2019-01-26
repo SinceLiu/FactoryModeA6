@@ -166,13 +166,25 @@ public class FactoryMode extends Activity implements OnItemClickListener {
             return position;
         }
 
+        @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = mInflater.inflate(R.layout.main_grid, null);
-            TextView textview = (TextView) convertView.findViewById(R.id.factor_button);
-            textview.setText(mListData.get(position));
-            SetColor(textview);
+            ViewHolder holder;
+            if (convertView == null) {
+                holder = new ViewHolder();
+                convertView = mInflater.inflate(R.layout.main_grid, null);
+                holder.textView = (TextView) convertView.findViewById(R.id.factor_button);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            holder.textView.setText(mListData.get(position));
+            SetColor(holder.textView);
             return convertView;
         }
+    }
+
+    public class ViewHolder{
+        TextView textView;
     }
 
     private void init() {

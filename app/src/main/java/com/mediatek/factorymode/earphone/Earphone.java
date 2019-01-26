@@ -74,7 +74,7 @@ public class Earphone extends BaseTestActivity implements OnClickListener, OnKey
         oldVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
                 mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
-                AudioManager.FLAG_PLAY_SOUND);
+                AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
         mAudioManager.setSpeakerphoneOn(false); //false //bob.chen modify for reiver test too low //bob.chen modify 
         setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
         mAudioManager.setMode(AudioManager.MODE_IN_CALL);
@@ -92,7 +92,7 @@ public class Earphone extends BaseTestActivity implements OnClickListener, OnKey
         mAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
         		mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
-                AudioManager.FLAG_PLAY_SOUND);
+                AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class Earphone extends BaseTestActivity implements OnClickListener, OnKey
     	mAudioManager.setRingerMode(oldMode);
     	mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 
     			oldVolume,
-                AudioManager.FLAG_PLAY_SOUND);
+                AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
     }
 
     protected void onDestroy() {
@@ -136,10 +136,10 @@ public class Earphone extends BaseTestActivity implements OnClickListener, OnKey
 		System.out.println("Chron, keyCode="+keyCode+" KeyEvent="+event);
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
-                mAudioManager.adjustStreamVolume(AudioManager.STREAM_VOICE_CALL, AudioManager.ADJUST_RAISE , AudioManager.FLAG_PLAY_SOUND);
+                mAudioManager.adjustStreamVolume(AudioManager.STREAM_VOICE_CALL, AudioManager.ADJUST_RAISE , AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
                 break;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
-                mAudioManager.adjustStreamVolume(AudioManager.STREAM_VOICE_CALL, AudioManager.ADJUST_LOWER , AudioManager.FLAG_PLAY_SOUND);
+                mAudioManager.adjustStreamVolume(AudioManager.STREAM_VOICE_CALL, AudioManager.ADJUST_LOWER , AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
                 break;
             default:
                 break;  

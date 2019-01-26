@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="@*android:style/Theme.Material">
+    <style name="AppTheme" parent="@android:style/Theme.Material">
         <item name="android:windowSwipeToDismiss">false</item>
     </style>
-
     <style name="info_label">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>

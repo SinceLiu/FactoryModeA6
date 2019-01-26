@@ -161,7 +161,7 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
         audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
                 audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
-                AudioManager.FLAG_PLAY_SOUND);
+                AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         audioManager.setMode(AudioManager.MODE_NORMAL);
     }
@@ -171,7 +171,7 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
         audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
                 audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
-                AudioManager.FLAG_PLAY_SOUND);
+                AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
     }
     
     @Override
@@ -181,7 +181,7 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
         audioManager.setRingerMode(oldMode);
     	audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 
     			oldVolume,
-                AudioManager.FLAG_PLAY_SOUND);
+                AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
     }
 
     protected void onDestroy() {

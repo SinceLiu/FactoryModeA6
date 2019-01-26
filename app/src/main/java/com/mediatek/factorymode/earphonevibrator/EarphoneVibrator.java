@@ -62,7 +62,7 @@ public class EarphoneVibrator extends BaseTestActivity implements OnClickListene
         mAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
                 mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
-                AudioManager.FLAG_PLAY_SOUND);
+                AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
         mAudioManager.setSpeakerphoneOn(false); //false //bob.chen modify for reiver test too low //bob.chen modify
         setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
         mAudioManager.setMode(AudioManager.MODE_IN_CALL);
@@ -88,7 +88,7 @@ public class EarphoneVibrator extends BaseTestActivity implements OnClickListene
         mAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
         		mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
-                AudioManager.FLAG_PLAY_SOUND);
+                AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class EarphoneVibrator extends BaseTestActivity implements OnClickListene
     	mAudioManager.setRingerMode(oldMode);
     	mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 
     			oldVolume,
-                AudioManager.FLAG_PLAY_SOUND);
+                AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
     }
 
     protected void onDestroy() {

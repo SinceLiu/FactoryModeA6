@@ -34,6 +34,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Bluetooth extends BaseTestActivity implements OnClickListener {
     private BluetoothAdapter mAdapter = null;
 
@@ -58,6 +61,8 @@ public class Bluetooth extends BaseTestActivity implements OnClickListener {
     BlueHandler mBlueHandler;
 
     Message msg = null;
+
+    private List<String> devices;   //用于去重
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,7 +98,8 @@ public class Bluetooth extends BaseTestActivity implements OnClickListener {
         mBlueHandler.post(bluerunnable);
         mTvInfo.setText(R.string.Bluetooth_opening);
         mSp = getSharedPreferences("FactoryMode", Context.MODE_PRIVATE);
-    };
+        devices = new ArrayList<String>();
+    }
 
     private Handler mHandler = new Handler() {
         @Override
@@ -108,7 +114,7 @@ public class Bluetooth extends BaseTestActivity implements OnClickListener {
                     BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
             registerReceiver(mReceiver, filter_finished);
             mBlueFlag = true;
-            while (mAdapter.startDiscovery() == false) {
+            while (!mAdapter.startDiscovery()) {
                 mAdapter.startDiscovery();
             }
         }
@@ -136,10 +142,24 @@ public class Bluetooth extends BaseTestActivity implements OnClickListener {
         }
     }
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+        if(isFinishing()){
+            if(mBlueFlag){
+                unregisterReceiver(mReceiver);
+                mBlueFlag = false;
+            }
+            mAdapter.disable();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mBlueFlag == true){
+        if(mBlueFlag){
             unregisterReceiver(mReceiver);
+            mBlueFlag = false;
         }
         mAdapter.disable();
     }
@@ -150,17 +170,20 @@ public class Bluetooth extends BaseTestActivity implements OnClickListener {
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
+                if (device.getBondState() != BluetoothDevice.BOND_BONDED &&
+                        !devices.contains(device.getAddress())) {   //去重
                     mNameList += device.getName() + "--" + getString(R.string.Bluetooth_mac)
                             + device.getAddress() + "\n";
                     mTvResult.setText(mNameList);
                 }
+                devices.add(device.getAddress());
                 if(AllTest.begin_auto_test){
                     Utils.SetPreferences(Bluetooth.this, mSp, R.string.bluetooth_name,AppDefine.FT_SUCCESS);
                     finish();
                 }
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 mTvCon.setText(R.string.Bluetooth_scan_success);
+                devices.clear();
             }
         }
     };
@@ -186,6 +209,7 @@ public class Bluetooth extends BaseTestActivity implements OnClickListener {
         }
     };
 
+    @Override
     public void onClick(View v) {
         Utils.SetPreferences(this, mSp, R.string.bluetooth_name,
                 (v.getId() == mBtOk.getId()) ? AppDefine.FT_SUCCESS : AppDefine.FT_FAILED);

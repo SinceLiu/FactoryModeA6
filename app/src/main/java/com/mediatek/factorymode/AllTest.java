@@ -91,6 +91,7 @@ public class AllTest extends Activity {
         this.startActivityForResult(intent, AppDefine.FT_TOUCHSCREENID);
     }
 
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Intent intent = new Intent();
         // intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); //bob.chen disabled
@@ -169,7 +170,7 @@ public class AllTest extends Activity {
             requestid = AppDefine.FT_CAMERAID;
         }
         if (requestCode == AppDefine.FT_CAMERAID) {
-            OnFinish();
+            onFinish();
             return;
         }
         
@@ -177,6 +178,7 @@ public class AllTest extends Activity {
         this.startActivityForResult(intent, requestid);
     }
 
+    @Override
     public void onDestroy() {
         super.onDestroy();
         /*BackstageDestroy();*/
@@ -312,7 +314,7 @@ public class AllTest extends Activity {
         }
     }
 
-    public void OnFinish() {
+    public void onFinish() {
         // Utils.SetPreferences(this, mSp, R.string.memory_name, AppDefine.FT_SUCCESS);  genju.chen disable
         // Utils.SetPreferences(this, mSp, R.string.gps_name, //bob
         // (mGPS.isSuccess()) ? AppDefine.FT_SUCCESS : AppDefine.FT_FAILED);

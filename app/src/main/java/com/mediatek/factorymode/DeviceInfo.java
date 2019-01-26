@@ -76,7 +76,6 @@ public class DeviceInfo extends BaseTestActivity implements OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         ActionBar.LayoutParams lp =new  ActionBar.LayoutParams(
                 android.view.ViewGroup.LayoutParams.MATCH_PARENT,
                 android.view.ViewGroup.LayoutParams.MATCH_PARENT,
@@ -180,6 +179,7 @@ public class DeviceInfo extends BaseTestActivity implements OnClickListener {
     public void onClick(View v) {
         if(v.getId() == mToEM.getId()) {
             Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setClassName("com.mediatek.engineermode", "com.mediatek.engineermode.EngineerMode");
             startActivity(intent);
         } else {

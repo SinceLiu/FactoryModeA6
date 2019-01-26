@@ -75,7 +75,7 @@ public class AutoTest extends Activity {
         mBlueThread.start();
         mBlueHandler = new BlueHandler(mBlueThread.getLooper());
         mBlueHandler.post(bluerunnable);
-        SdCardInit();
+        sdCardInit();
 
         Intent intent = new Intent();
         intent.setClassName(this, "com.mediatek.factorymode.BatteryLog");
@@ -264,12 +264,13 @@ public class AutoTest extends Activity {
         this.startActivityForResult(intent, requestid);
     }
 
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        BackstageDestroy();
+        backstageDestroy();
     }
 
-    public void BackstageDestroy() {
+    public void backstageDestroy() {
         mWifiTools.closeWifi();
         mBlueHandler.removeCallbacks(bluerunnable);
         mWifiHandler.removeCallbacks(wifirunnable);
@@ -279,14 +280,14 @@ public class AutoTest extends Activity {
         mAdapter.disable();
     }
 
-    public void SdCardInit() {
+    public void sdCardInit() {
         String sDcString = Environment.getExternalStorageState();
         if (sDcString.equals(Environment.MEDIA_MOUNTED)) {
             mSdCardResult = true;
         }
     }
 
-    public boolean WifiInit() {
+    public boolean wifiInit() {
         mWifiTools.openWifi();
         mWifiList = mWifiTools.scanWifi();
         if (mWifiList == null || mWifiList.size() <= 0) {
@@ -309,7 +310,7 @@ public class AutoTest extends Activity {
         @Override
         public void run() {
             if (mWifiStatus == false) {
-                boolean res = WifiInit();
+                boolean res = wifiInit();
                 if (res == false) {
                 } else {
                     mWifiStatus = true;
@@ -340,11 +341,11 @@ public class AutoTest extends Activity {
         }
     }
 
-    public void BlueInit() {
+    public void blueInit() {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mAdapter.enable();
         if (mAdapter.isEnabled() == true) {
-            StartReciver();
+            startReciver();
             while (mAdapter.startDiscovery() == false) {
                 mAdapter.startDiscovery();
             }
@@ -353,7 +354,7 @@ public class AutoTest extends Activity {
         }
     }
 
-    public void StartReciver() {
+    public void startReciver() {
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(mReceiver, filter);
         isregisterReceiver = true;
@@ -380,7 +381,7 @@ public class AutoTest extends Activity {
     Runnable bluerunnable = new Runnable() {
         @Override
         public void run() {
-            BlueInit();
+            blueInit();
         }
     };
 

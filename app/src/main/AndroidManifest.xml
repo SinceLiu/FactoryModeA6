@@ -2,9 +2,9 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mediatek.factorymode"
-    android:sharedUserId="android.uid.phone"
-    android:versionCode="181211001"
-    android:versionName="1.2.4">
+    android:sharedUserId="android.uid.system"
+    android:versionCode="190109001"
+    android:versionName="1.2.8">
 
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
     <uses-permission android:name="com.google.android.gm.permission.WRITE_GMAIL" />
@@ -72,9 +72,13 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".CurrentConsumptionService"></service>
+        <service android:name=".CurrentConsumptionService">
+            <intent-filter android:priority="1000"/>
+        </service>
         
-        <service android:name=".CPUTemperatureService"></service>
+        <service android:name=".CPUTemperatureService">
+            <intent-filter android:priority="1000"/>
+        </service>
         
         
         <receiver android:name=".EntranceReceiver">
@@ -89,14 +93,14 @@
         <activity
             android:name=".AutoTest"
             android:label="@string/AutoTest"
-            android:theme="@style/AppTheme"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait" />
 
         <!-- AllTest -->
         <activity
             android:name=".AllTest"
             android:label="@string/AllTest"
-            android:theme="@style/AppTheme"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait" />
 
         <!-- HeadSet -->
@@ -410,7 +414,8 @@
             android:name="com.mediatek.factorymode.lcd.LCD"
             android:label="@string/LCD"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
+            android:theme="@style/AppTheme"
+            />
         
         <activity
             android:name="com.mediatek.factorymode.lcd.LCDWhite"
@@ -454,7 +459,9 @@
         <activity
             android:name="com.mediatek.factorymode.Report"
             android:label="@string/Report"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            />
 
         <!-- Hall -->
         <activity

@@ -47,7 +47,6 @@ public class GSensor extends BaseTestActivity implements OnClickListener {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         ActionBar.LayoutParams lp =new  ActionBar.LayoutParams(
                 android.view.ViewGroup.LayoutParams.MATCH_PARENT,
