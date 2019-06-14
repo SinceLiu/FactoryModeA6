@@ -231,7 +231,7 @@ public class GSensorWithCalibrate extends BaseTestActivity implements OnClickLis
                 float absy = Math.abs(y);
                 float absz = Math.abs(z);
 
-                /*boolean zzz = (absz >= 7.0 && absz <= 13.0);
+                 /*boolean zzz = (absz >= 7.0 && absz <= 13.0);
                 if(SystemProperties.get("ro.cenon_factorymode_feature").equals("1")) {
                     zzz = (absz >= 5.0 && absz <= 15.0);
                 }

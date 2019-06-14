@@ -55,7 +55,7 @@ public class AudioForBatteryTest extends BaseTestActivity implements OnClickList
     private boolean testEnd = false;
     private int startLevel = -1;
     private int endLevel = -1;
-    private int maxPassLevel = 8;
+    private int maxPassLevel = 12;
 
     private long testTimeLong = 1 * 60 * 60 * 1000;
     private long start = -1;
@@ -223,8 +223,12 @@ public class AudioForBatteryTest extends BaseTestActivity implements OnClickList
         }
         stopMediaPlayer();
         if (mIntentReceiver != null) {
-            unregisterReceiver(mIntentReceiver);
-            mIntentReceiver = null;
+            try {
+                unregisterReceiver(mIntentReceiver);
+                mIntentReceiver = null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         super.finish();

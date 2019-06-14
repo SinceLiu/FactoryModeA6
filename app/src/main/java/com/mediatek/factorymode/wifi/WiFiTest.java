@@ -3,21 +3,22 @@ package com.mediatek.factorymode.wifi;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.LocationManager;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.mediatek.factorymode.AllTest;
 import com.mediatek.factorymode.AppDefine;
 import com.mediatek.factorymode.BaseTestActivity;
 import com.mediatek.factorymode.R;
@@ -28,9 +29,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class WiFiTest extends BaseTestActivity implements OnClickListener {
     public static final int WIFI_STATE_DISABLING = 0;
@@ -63,6 +62,8 @@ public class WiFiTest extends BaseTestActivity implements OnClickListener {
 
     boolean mResult = false;
 
+    boolean isLoactionOpen;
+    boolean isWifiOpen;
     boolean mFlag = false;
 
     boolean mListFlag = false;
@@ -92,23 +93,23 @@ public class WiFiTest extends BaseTestActivity implements OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-	ActionBar.LayoutParams lp =new  ActionBar.LayoutParams(
-        android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-        android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-        Gravity.CENTER);
+        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER);
 
-	 View mView =  LayoutInflater.from(this).inflate(R.layout.title, new LinearLayout(this), false);
-	 TextView mTextView = (TextView) mView.findViewById(R.id.action_bar_title);
-	getActionBar().setCustomView(mView, lp); 
-	
-	mTextView.setText(getTitle());
-	 
-	getActionBar().setDisplayShowHomeEnabled(false);
-	getActionBar().setDisplayShowTitleEnabled(false);
-	getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-	getActionBar().setDisplayShowCustomEnabled(true);
-	getActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
-		
+        View mView = LayoutInflater.from(this).inflate(R.layout.title, new LinearLayout(this), false);
+        TextView mTextView = (TextView) mView.findViewById(R.id.action_bar_title);
+        getActionBar().setCustomView(mView, lp);
+
+        mTextView.setText(getTitle());
+
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setDisplayShowTitleEnabled(false);
+        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getActionBar().setDisplayShowCustomEnabled(true);
+        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
         setContentView(R.layout.wifi_test);
         mSp = getSharedPreferences("FactoryMode", Context.MODE_PRIVATE);
         mTvInfo = (TextView) findViewById(R.id.wifi_state_id);
@@ -119,8 +120,19 @@ public class WiFiTest extends BaseTestActivity implements OnClickListener {
         mBtFailed = (Button) findViewById(R.id.wifi_bt_failed);
         mBtOk.setOnClickListener(this);
         mBtFailed.setOnClickListener(this);
+
+        //判断是否开启位置，android 8.0需要开启位置，wifiManager才能正常工作
+        LocationManager locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        boolean networkProvider = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        boolean gpsProvider = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (!networkProvider && !gpsProvider) {
+            isLoactionOpen = false;
+            Settings.Secure.putInt(getContentResolver(), Settings.Secure.LOCATION_MODE, 1);  //开启位置
+        } else {
+            isLoactionOpen = true;
+        }
         mWifiTools = new WiFiTools(this);
-        mWifiTools.openWifi();
+        isWifiOpen = !mWifiTools.openWifi();
         mWifiThread.start();
         mHandler = new WifiHandler(mWifiThread.getLooper());
         mHandler.post(wifirunnable);
@@ -144,6 +156,12 @@ public class WiFiTest extends BaseTestActivity implements OnClickListener {
     public void onDestroy() {
         super.onDestroy();
         /*mWifiTools.closeWifi();*/
+        if (!isLoactionOpen) {
+            Settings.Secure.putInt(getContentResolver(), Settings.Secure.LOCATION_MODE, 0);  //关闭位置
+        }
+        if (!isWifiOpen) {
+            mWifiTools.closeWifi();
+        }
         mHandler.removeCallbacks(wifirunnable);
     }
 
@@ -222,7 +240,7 @@ public class WiFiTest extends BaseTestActivity implements OnClickListener {
         if (mWifiList.size() > 0) {
             for (int i = 0; i < mWifiList.size(); i++) {
                 ScanResult sr = mWifiList.get(i);
-                mNetWorkName += sr.SSID + "------"+sr.level+"\n";
+                mNetWorkName += sr.SSID + "------" + sr.level + "\n";
             }
             UiHandler.sendEmptyMessage(WIFI_LIST);
             for (int j = 0; j < mWifiList.size(); j++) {
@@ -238,7 +256,7 @@ public class WiFiTest extends BaseTestActivity implements OnClickListener {
             return false;
         }
         return false;
-    };
+    }
 
     @Override
     public void onClick(View v) {

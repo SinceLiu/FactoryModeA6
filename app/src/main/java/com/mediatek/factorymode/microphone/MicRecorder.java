@@ -60,7 +60,7 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
     private String RECORD_SOURCE_NAME_PREFIX = "mictest";
     /*private String RECORD_SOURCE_NAME_SUFFIX = ".amr";*/
     private String RECORD_SOURCE_NAME_SUFFIX = "";
-      
+
     private static final int HANDLER_MSG_START_RECORD = 1;
     private static final int HANDLER_MSG_STOP_RECORD_AND_PLAY = 2;
 
@@ -79,13 +79,13 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
 
     private int oldMode;
     private int oldVolume;
-    
-   class  RecoderControlHandler extends Handler {
-        @Override  
-        public void handleMessage(Message msg) {  
-            super.handleMessage(msg);  
-            
-            switch (msg.what)  {  
+
+    class RecoderControlHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            switch (msg.what) {
                 case HANDLER_MSG_START_RECORD:
                     mRecord.setEnabled(false);
                     mRecoderControlHandler.postDelayed(new Runnable() {
@@ -93,8 +93,8 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
                         public void run() {
                             mRecord.setEnabled(true);
                         }
-                    },1000);
-                   VUMeter_hander.post(VUMeter_runnable);
+                    }, 1000);
+                    VUMeter_hander.post(VUMeter_runnable);
                     start();
                     break;
                 case HANDLER_MSG_STOP_RECORD_AND_PLAY:
@@ -112,8 +112,8 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
                 default:
                     break;
             }
-        }  
-   }
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -151,10 +151,10 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
         mVUMeter = (VUMeter) findViewById(R.id.uvMeter);
 
         mRecoderControlHandler = new RecoderControlHandler();
-        
+
         deleteRecordResourceDir();
-        
-        
+
+
         audioManager = (AudioManager) this.getSystemService(AUDIO_SERVICE);
         oldMode = audioManager.getRingerMode();
         oldVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -173,14 +173,14 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
                 audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
                 AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
     }
-    
+
     @Override
     protected void onPause() {
-    	super.onPause();
+        super.onPause();
 
         audioManager.setRingerMode(oldMode);
-    	audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 
-    			oldVolume,
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+                oldVolume,
                 AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
     }
 
@@ -193,9 +193,9 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
         deleteRecordResourceDir();
     }
 
-    public void isFinish(){
-        if(mMicClick == true && mSpkClick == true) {
-            if(mMicTestOk && mSpkTestOk) {
+    public void isFinish() {
+        if (mMicClick == true && mSpkClick == true) {
+            if (mMicTestOk && mSpkTestOk) {
                 Utils.SetPreferences(this, mSp, R.string.microphone_name, AppDefine.FT_SUCCESS);
             } else {
                 Utils.SetPreferences(this, mSp, R.string.microphone_name, AppDefine.FT_FAILED);
@@ -209,7 +209,7 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == mRecord.getId()) {
-        	if (mRecord.getTag() == null || !mRecord.getTag().equals("ing")) {
+            if (mRecord.getTag() == null || !mRecord.getTag().equals("ing")) {
                 mRecoderControlHandler.sendEmptyMessage(HANDLER_MSG_START_RECORD);
             } else {
                 mRecoderControlHandler.sendEmptyMessage(HANDLER_MSG_STOP_RECORD_AND_PLAY);
@@ -245,7 +245,7 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
         isFinish();
     }
 
-   private void start() {
+    private void start() {
         mRecord.setText(R.string.Mic_stop);
         String sDcString = Environment.getExternalStorageState();
         if (!sDcString.equals(Environment.MEDIA_MOUNTED)) {
@@ -268,15 +268,15 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
             mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
             mRecorder.setOutputFile(mSampleFile.getAbsolutePath());
             mRecorder.setOnErrorListener(new OnErrorListener() {
-				
-				@Override
-				public void onError(MediaRecorder mr, int what, int extra) {
-		            Toast.makeText(MicRecorder.this, 
-		            		"MediaRecorder Error what="+what+" extra="+extra, Toast.LENGTH_SHORT).show();
-					Log.e("FactoryMode", "MediaRecorder Error what="+what+" extra="+extra);
-	                mRecoderControlHandler.sendEmptyMessage(HANDLER_MSG_STOP_RECORD_AND_PLAY);
-				}
-			});
+
+                @Override
+                public void onError(MediaRecorder mr, int what, int extra) {
+                    Toast.makeText(MicRecorder.this,
+                            "MediaRecorder Error what=" + what + " extra=" + extra, Toast.LENGTH_SHORT).show();
+                    Log.e("FactoryMode", "MediaRecorder Error what=" + what + " extra=" + extra);
+                    mRecoderControlHandler.sendEmptyMessage(HANDLER_MSG_STOP_RECORD_AND_PLAY);
+                }
+            });
 
             try {
                 mRecorder.prepare();
@@ -287,7 +287,7 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
                 mRecorder.release();
                 mRecorder = null;
                 return;
-             } 
+            }
         } catch (Exception e) {
             e.printStackTrace();
             mRecoderControlHandler.sendEmptyMessage(HANDLER_MSG_STOP_RECORD_AND_PLAY);
@@ -296,12 +296,11 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
             mRecorder = null;
             return;
         }
-
         mRecorder.start();
     }
-    
+
     private void stopRecording() {
-        if(null != mRecorder) {
+        if (null != mRecorder) {
             mRecorder.stop();
             mRecorder.release();
             mRecorder = null;
@@ -312,7 +311,7 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
     private void startPlay() {
         try {
             mPlayer = new MediaPlayer();
-            Log.e("FactoryMode", "MediaRecorder startPlay size:"+mSampleFile.length());
+            Log.e("FactoryMode", "MediaRecorder startPlay size:" + mSampleFile.length());
             mPlayer.setDataSource(mSampleFile.getAbsolutePath());
             mPlayer.prepare();
             mPlayer.start();
@@ -342,15 +341,15 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
                     return false;
                 }
             });
-        } catch (IllegalArgumentException  e) {
-                e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
         } catch (IllegalStateException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         } catch (IOException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
     }
-    
+
     private void stopPlaying() {
         if (mPlayer != null) {
             mPlayer.stop();
@@ -365,44 +364,44 @@ public class MicRecorder extends BaseTestActivity implements OnClickListener {
     }
 
     private void deleteRecordResource() {
-        if(mSampleFile == null) {
+        if (mSampleFile == null) {
             return;
         }
-        if(mSampleFile.exists()) {
+        if (mSampleFile.exists()) {
             mSampleFile.delete();
         }
     }
-    
+
     private void deleteRecordResourceDir() {
-        String sampleDir = Environment.getExternalStorageDirectory() + "/" 
-        		+ RECORD_SOURCE_DIR;
+        String sampleDir = Environment.getExternalStorageDirectory() + "/"
+                + RECORD_SOURCE_DIR;
         File destDir = new File(sampleDir);
-        if(!destDir.exists()) {
+        if (!destDir.exists()) {
             return;
         }
-        
-		File files[] = destDir.listFiles();
-		if (files!=null) {
-			int allNum = files.length;
-			for (int i = 0; i < allNum; i++) {
-				files[i].delete();
-			}
-		}
-		destDir.delete();
+
+        File files[] = destDir.listFiles();
+        if (files != null) {
+            int allNum = files.length;
+            for (int i = 0; i < allNum; i++) {
+                files[i].delete();
+            }
+        }
+        destDir.delete();
     }
 
     private void getSampleFile() {
-    	String sampleDir = Environment.getExternalStorageDirectory() + "/" 
-        		+ RECORD_SOURCE_DIR;
+        String sampleDir = Environment.getExternalStorageDirectory() + "/"
+                + RECORD_SOURCE_DIR;
         File destDir = new File(sampleDir);
-        if(!destDir.exists()) {
-			destDir.mkdirs();
+        if (!destDir.exists()) {
+            destDir.mkdirs();
         }
         mSampleFile = new File(
-        		sampleDir
-        		+ "/"
-        		+ RECORD_SOURCE_NAME_PREFIX 
-        		+ System.currentTimeMillis()
-        		+ RECORD_SOURCE_NAME_SUFFIX);
+                sampleDir
+                        + "/"
+                        + RECORD_SOURCE_NAME_PREFIX
+                        + System.currentTimeMillis()
+                        + RECORD_SOURCE_NAME_SUFFIX);
     }
 }

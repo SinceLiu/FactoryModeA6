@@ -76,7 +76,7 @@ public class WiFiTools {
             boolean wifistate = mWifiManager.setWifiEnabled(true);
             return wifistate;
         } else {
-            return true;
+            return false;
         }
     }
 

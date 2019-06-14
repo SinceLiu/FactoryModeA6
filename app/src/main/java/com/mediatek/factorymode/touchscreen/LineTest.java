@@ -198,7 +198,12 @@ public class LineTest extends BaseTestActivity {
                 || !mDrawRectMidpointLeft || !mDrawRectMidpointRight || !mDrawRectMidpointTop || !mDrawRectMidpointBottom) {
             mIsDrawRect = false;
             mDrawRectSuccess = false;
+            mInput.clear();
             mTemPoints.clear();
+            mInputLeft.clear();
+            mInputTop.clear();
+            mInputRight.clear();
+            mInputBottom.clear();
         }
         mDiversity = 0.0;
         mDrawRectVertexLeft = mDrawRectVertexTop = mDrawRectVertexRight = mDrawRectVertexBottom
@@ -331,7 +336,7 @@ public class LineTest extends BaseTestActivity {
                 Log.d("LineTest", "mDrawVerticalLineSuccess=true");
             }
         } else {
-            clearDrawDiagonal();
+            clearDrawCross();
             Log.d("LineTest", "mDrawDiagonalSuccess=false crossCheck=" + crossCheck);
         }
         return crossCheck;
