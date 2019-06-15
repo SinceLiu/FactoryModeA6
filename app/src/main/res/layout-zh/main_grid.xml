@@ -4,8 +4,8 @@
     android:id="@+id/factor_button"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minHeight="55dip"
-    android:textSize="40sp"
+    android:minHeight="@dimen/main_grid_min_height"
+    android:textSize="@dimen/main_grid_text_size"
     android:gravity="center"
     android:background="@drawable/btn_default">
 </TextView>

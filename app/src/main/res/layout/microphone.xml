@@ -4,7 +4,7 @@
         android:id="@+id/mic_tv_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dip" />
+        android:textSize="@dimen/microphone_text_size" />
     <Button
         android:id="@+id/mic_bt_ok"
         android:layout_width="wrap_content"

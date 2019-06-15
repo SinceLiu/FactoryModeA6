@@ -1,41 +1,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/info_layout">
+
     <TextView
         android:id="@+id/lsensor_accuracy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/LSensor_default_text"
-        android:textSize="20dip" />
+        android:textSize="@dimen/lsensor_text_size_1" />
+
     <TextView
         android:id="@+id/lsensor_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/LSensor_default_text"
-        android:textSize="20dip" />
+        android:textSize="@dimen/lsensor_text_size_1" />
+
     <TextView
         android:id="@+id/lsensor_tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/LSensor_tips"
-        android:textSize="22dip"
-        android:textColor="@color/Green" />
+        android:textColor="@color/Green"
+        android:textSize="@dimen/lsensor_text_size_2" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/lsensor_bt_ok"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:textSize="25dip"
-            android:text="@string/Success" />
+            android:text="@string/Success"
+            android:textSize="@dimen/lsensor_text_size_3" />
+
         <Button
             android:id="@+id/lsensor_bt_failed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:textSize="25dip"
-            android:text="@string/Failed" />
+            android:text="@string/Failed"
+            android:textSize="@dimen/lsensor_text_size_3" />
     </LinearLayout>
 </LinearLayout>

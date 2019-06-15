@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mediatek.factorymode"
     android:sharedUserId="android.uid.phone"
-    android:versionCode="190522001"
+    android:versionCode="190614008"
     android:versionName="1.3.3">
 
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>

@@ -58,7 +58,7 @@ public class LineTest extends BaseTestActivity {
 
     private final static int SFVALUE = 30;
 
-    private int mZoom = 1;
+    private float mZoom = 1.0f;
 
     private int mPadding = 10; //50;//20;
 
@@ -131,10 +131,7 @@ public class LineTest extends BaseTestActivity {
         dm = this.getApplicationContext().getResources().getDisplayMetrics();
         mRectWidth = dm.widthPixels;
         mRectHeight = dm.heightPixels;
-        if ((480 == mRectWidth && 800 == mRectHeight)
-                || (800 == mRectWidth && 480 == mRectHeight)) {
-            mZoom = 2;
-        }
+        mZoom = mRectWidth / 240.0f;
         readLine();
         setContentView(new CanvasView(this));
     }
@@ -534,7 +531,7 @@ public class LineTest extends BaseTestActivity {
             mLinePaint = new Paint();
             mLinePaint.setAntiAlias(true);
             mLinePaint.setStrokeCap(Paint.Cap.ROUND);
-            mLinePaint.setStrokeWidth(8);
+            mLinePaint.setStrokeWidth(8 * mZoom);
             mTextPaint = new Paint();
             mTextPaint.setAntiAlias(true);
             mTextPaint.setTextSize(12.0f * mZoom);
@@ -543,7 +540,7 @@ public class LineTest extends BaseTestActivity {
             mRectPaint = new Paint();
             mRectPaint.setARGB(255, 255, 255, 255);
             mOkPaint = new Paint();
-            mOkPaint.setTextSize(16);
+            mOkPaint.setTextSize(16*mZoom);
             mOkPaint.setARGB(255, 0, 0, 255);
             mOkPaint.setAntiAlias(true);
             mOkPaint.setStyle(Paint.Style.STROKE);

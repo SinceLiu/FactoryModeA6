@@ -38,17 +38,17 @@
     </style>
 
     <style name="TextAppearance.info_label">
-        <item name="android:textSize">32sp</item>
+        <item name="android:textSize">@dimen/info_label_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextAppearance.info_small">
-        <item name="android:textSize">26sp</item>
+        <item name="android:textSize">@dimen/info_small_text_size</item>
         <item name="android:textStyle">normal</item>
     </style>
 
     <style name="TextAppearance.info_value">
-        <item name="android:textSize">28sp</item>
+        <item name="android:textSize">@dimen/info_value_text_size</item>
         <item name="android:textStyle">normal</item>
     </style>
 

@@ -1,57 +1,65 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/info_layout">
+
     <TextView
         android:id="@+id/audio_tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Audio_operation"
-        android:textSize="20dip"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/Green" />
+        android:text="@string/Audio_operation"
+        android:textColor="@color/Green"
+        android:textSize="@dimen/earphone_vibrate_text_size_1" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/audio_bt_ok"
             android:layout_width="match_parent"
-            android:layout_height="120dip"
+            android:layout_height="@dimen/earphone_vibrate_button_height"
             android:layout_weight="0.5"
-            android:textSize="25dip"
-            android:text="@string/Success" />
+            android:text="@string/Success"
+            android:textSize="@dimen/earphone_vibrate_text_size_2" />
+
         <Button
             android:id="@+id/audio_bt_failed"
             android:layout_width="match_parent"
-            android:layout_height="120dip"
+            android:layout_height="@dimen/earphone_vibrate_button_height"
             android:layout_weight="0.5"
-            android:textSize="25dip"
-            android:text="@string/Failed" />
+            android:text="@string/Failed"
+            android:textSize="@dimen/earphone_vibrate_text_size_2" />
     </LinearLayout>
+
     <TextView
         android:id="@+id/vibrator_tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Vibrator_operation"
-        android:textSize="20dip"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/Green" />
+        android:text="@string/Vibrator_operation"
+        android:textColor="@color/Green"
+        android:textSize="@dimen/earphone_vibrate_text_size_1" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/vibrator_bt_ok"
             android:layout_width="match_parent"
-            android:layout_height="120dip"
+            android:layout_height="@dimen/earphone_vibrate_button_height"
             android:layout_weight="0.5"
-            android:textSize="25dip"
-            android:text="@string/Success" />
+            android:text="@string/Success"
+            android:textSize="@dimen/earphone_vibrate_text_size_2" />
+
         <Button
             android:id="@+id/vibrator_bt_failed"
             android:layout_width="match_parent"
-            android:layout_height="120dip"
+            android:layout_height="@dimen/earphone_vibrate_button_height"
             android:layout_weight="0.5"
-            android:textSize="25dip"
-            android:text="@string/Failed" />
+            android:text="@string/Failed"
+            android:textSize="@dimen/earphone_vibrate_text_size_2" />
     </LinearLayout>
 </LinearLayout>

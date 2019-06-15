@@ -18,24 +18,25 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:text="@string/AutoTest"
-            android:textSize="36dip" />
+            android:textSize="@dimen/main_text_size" />
         <Button
             android:id="@+id/main_bt_alltest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:text="@string/AllTest"
-            android:textSize="36dip" />
+            android:textSize="@dimen/main_text_size" />
+
     </LinearLayout>
     <GridView
         android:id="@+id/main_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="0dip"
-        android:verticalSpacing="0.5dip"
-        android:horizontalSpacing="0.5dip"
+        android:verticalSpacing="@dimen/main_grid_spacing"
+        android:horizontalSpacing="@dimen/main_grid_spacing"
         android:numColumns="1"
-        android:columnWidth="90dip"
+        android:columnWidth="@dimen/main_grid_column_width"
         android:stretchMode="columnWidth"
         android:gravity="center" />
 </LinearLayout>

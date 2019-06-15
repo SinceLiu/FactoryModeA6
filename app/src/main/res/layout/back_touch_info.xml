@@ -2,39 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/info_layout">
 
-    <LinearLayout style="@style/entry_layout" >
+    <LinearLayout style="@style/entry_layout">
+
         <TextView
             style="@style/info_label"
             android:text="@string/back_touch_status_label"
-            android:textSize="16sp" />
+            android:textSize="@dimen/back_touch_info_text_size_1" />
 
         <TextView
             android:id="@+id/status"
             style="@style/info_value"
-            android:textSize="16sp" />
-       
+            android:textSize="@dimen/back_touch_info_text_size_1" />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dip"
-        android:orientation="vertical" >
-         <TextView
+        android:layout_marginTop="@dimen/back_touch_info_margin_top"
+        android:orientation="vertical">
+
+        <TextView
             android:id="@+id/rawdatastatus"
             style="@style/info_value"
-            android:textSize="16sp" />
-             <TextView
+            android:textSize="@dimen/back_touch_info_text_size_1" />
+
+        <TextView
             android:id="@+id/deltastatus"
             style="@style/info_value"
-            android:textSize="16sp" />
+            android:textSize="@dimen/back_touch_info_text_size_1" />
+
         <Button
             android:id="@+id/otg_state_ok"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.8"
             android:text="@string/Success"
-            android:textSize="25sp" />
+            android:textSize="@dimen/back_touch_info_text_size_2" />
 
         <Button
             android:id="@+id/otg_state_failed"
@@ -42,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.2"
             android:text="@string/Failed"
-            android:textSize="25sp" />
+            android:textSize="@dimen/back_touch_info_text_size_2" />
     </LinearLayout>
 
 </LinearLayout>

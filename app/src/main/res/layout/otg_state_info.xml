@@ -6,18 +6,18 @@
         <TextView
             style="@style/info_label"
             android:text="@string/otg_status_label"
-            android:textSize="25sp" />
+            android:textSize="@dimen/otg_state_info_text_size" />
 
         <TextView
             android:id="@+id/status"
             style="@style/info_value"
-            android:textSize="25sp" />
+            android:textSize="@dimen/otg_state_info_text_size" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dip"
+        android:layout_marginTop="@dimen/otg_state_info_margin_top"
         android:orientation="vertical" >
 
         <Button
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.8"
             android:text="@string/Success"
-            android:textSize="25sp" />
+            android:textSize="@dimen/otg_state_info_text_size" />
 
         <Button
             android:id="@+id/otg_state_failed"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.2"
             android:text="@string/Failed"
-            android:textSize="25sp" />
+            android:textSize="@dimen/otg_state_info_text_size" />
     </LinearLayout>
 
 </LinearLayout>

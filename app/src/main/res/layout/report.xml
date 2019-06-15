@@ -6,27 +6,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="30dip"
-        android:layout_marginRight="30dip"
-        android:paddingBottom="30dip"
+        android:layout_marginLeft="@dimen/report_margin_horizontal"
+        android:layout_marginRight="@dimen/report_margin_horizontal"
+        android:paddingBottom="@dimen/report_padding_bottom"
         android:orientation="vertical">
         <TextView
             android:id="@+id/report_success"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dip"
+            android:textSize="@dimen/report_text_size"
             android:textColor="@color/Green" />
         <TextView
             android:id="@+id/report_failed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dip"
+            android:textSize="@dimen/report_text_size"
             android:textColor="@color/Red" />
         <TextView
             android:id="@+id/report_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dip"
+            android:textSize="@dimen/report_text_size"
             android:textColor="@color/gray" />
     </LinearLayout>
 </ScrollView>
